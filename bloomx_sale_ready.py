@@ -12,8 +12,8 @@ __old_rgb_set__ = RGB.__set__
 
 # Dictionary of markings
 bloomx_codes = {
-                'ufa': ['Зикрач Армавир', 0, 4.0, 1.02],
-                'marf': ['Геворгян', 0, 4.0, 1.02]
+    'ufa': ['Зикрач Армавир', 0, 4.0, 1.02],
+    'marf': ['Геворгян', 0, 4.0, 1.02]
 }
 
 # XPath expression to extract the currency rate
@@ -82,9 +82,11 @@ def bloomx_upd(bloomx_workbook, bloomx_worksheet, euro_rate):
     customer = ''
     flower_sum = [0.0, 0.0, 0.0, 0.0]
     column_name = {
-                   'D11': ' КОЛ-ВО', 'E11': 'ТИП', 'L11': 'ЦЕНА, EUR',
-                   'M11': 'СУММА ЦВЕТОК, EUR', 'Q11': 'ДОП РАСХОД, EUR',
-                   'R11': 'ЦВЕТОК И ДОП РАСХОД, EUR', 'S11': 'КУРС EUR', 'T11': 'СУММА ЦВЕТОК, РУБ', 'U11': 'ТРАНСПОРТ, РУБ', 'V11': 'ИТОГО, РУБ', 'W11': 'ЦЕНА, РУБ'
+        'D11': 'КОЛ-ВО', 'E11': 'ТИП', 'L11': 'ЦЕНА, EUR',
+        'M11': 'СУММА ЦВЕТОК, EUR', 'Q11': 'ДОП РАСХОД, EUR',
+        'R11': 'ЦВЕТОК И ДОП РАСХОД, EUR', 'S11': 'КУРС EUR',
+        'T11': 'СУММА ЦВЕТОК, РУБ', 'U11': 'ТРАНСПОРТ, РУБ',
+        'V11': 'ИТОГО, РУБ', 'W11': 'ЦЕНА, РУБ'
     }
     sum_total = ['Q', 'R', 'T', 'U', 'V']
 
@@ -96,28 +98,28 @@ def bloomx_upd(bloomx_workbook, bloomx_worksheet, euro_rate):
         ):
             last_flower = row
 
-            if 'Commission' in bloomx_worksheet[f'F{row+4}'].value:
+            if 'Commission' in str(bloomx_worksheet[f'F{row+4}'].value):
                 extra_cost_start = row + 4
 
             else:
                 print("Commision start row wasn't found!")
                 exit()
 
-            if '9%' in bloomx_worksheet[f'F{row+14}'].value:
+            if '9%' in str(bloomx_worksheet[f'F{row+14}'].value):
                 extra_cost_fin = row + 14
 
             else:
                 print("Commision final row wasn't found!")
                 exit()
 
-            if 'Total' in bloomx_worksheet[f'K{row+16}'].value:
+            if 'Total' in str(bloomx_worksheet[f'K{row+16}'].value):
                 flower_sum[0] = float(bloomx_worksheet[f'M{row+16}'].value)
 
             else:
                 print("Total row wasn't found!")
                 exit()
 
-            if 'Subtotal' in bloomx_worksheet[f'K{row+2}'].value:
+            if 'Subtotal' in str(bloomx_worksheet[f'K{row+2}'].value):
                 flower_sum[1] = float(bloomx_worksheet[f'M{row+2}'].value)
 
             else:
@@ -149,7 +151,6 @@ def bloomx_upd(bloomx_workbook, bloomx_worksheet, euro_rate):
                 subtotal = float(bloomx_worksheet[f'M{row}'].value)
                 extra_subtotal = subtotal * extra_ratio
                 total_eur = extra_subtotal + subtotal
-                print(truck_ratio)
                 truck_local = truck_ratio * total_eur
                 total_rub = euro_rate_upd * total_eur
                 amount = float(bloomx_worksheet[f'D{row}'].value)
